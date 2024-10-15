@@ -1,0 +1,365 @@
+//start - var
+let button_inicio
+drawoff = false
+//
+
+
+//ball strings - position
+let bolax = 290
+let bolay = 200
+
+//tamanho_bola
+let diametro_bola = 20
+let raio_bola = diametro_bola / 2
+//
+
+//velocidade
+let velobolax = 8
+let velobolay = -8
+
+//raquete - tamanho
+let raque_width = 10
+let raque_height = 100
+let cor1 = 'red'
+let cor2 = 'red'
+
+//raquete-position
+let raquex = 5
+let raquey = 150
+
+//raquete-oponent
+
+
+let raquex2 = 585
+let raquey2 = 150
+
+let velo_oponet
+
+//colisao
+colisao = false
+
+//contador
+let pontos = 0
+let pontos2 = 0
+
+let twoplayers = false
+let oneplayer = false
+
+let inicio = false
+
+function aviso(){
+
+  alert('                                               PING PONG   '+'\n        --------------------------------------------------------------------'+'\n               - Use as teclas W e S para movimentar o player 1'+'\n'+'\n               - Use as setas para movimentar o player 2'+'\n'+'\n               - O jogo termina quando um jogador marcar 10 pontos'+'\n        -------------------------------------------------------------------'+'\n                                                 DIVIRTA-SE')
+}
+
+function iniciar(){
+  if(keyIsDown(32)){
+    inicio = true
+    pontos = 0
+    pontos2 = 0
+  }
+}
+
+function selected(tex,cortex){
+  fill(cortex)
+  text(tex, 145, 50)
+}
+
+
+function botao(){
+  button = createButton('Player vs IA')
+  button.size(120, 50)
+  button.position(250, 180)
+  button.mousePressed(drawon)
+  button.style('background-color', 'purple')
+  button.style('border-radius', '40px')
+  button.style('color', 'white')
+  
+  button1 = createButton('Player vs Player')
+  button1.size(120, 50)
+  button1.position(380, 180)
+  button1.mousePressed(drawon1)
+  button1.style('background-color', 'purple')
+  button1.style('border-radius', '40px')
+  button1.style('color', 'white')
+
+}
+
+function skins(){
+  fill("white")
+  stroke('bold')
+  text("SKINS DO PLAYER 1", 180, 280)
+  
+  bver1 = createButton('Vermelho')
+  bver1.size(100, 45)
+  bver1.position(180, 300)
+  bver1.style('background-color', 'red')
+  bver1.style('color', 'white')
+  bver1.mousePressed(ver1)
+  
+  bv1 = createButton('Verde')
+  bv1.size(100, 45)
+  bv1.position(180, 350)
+  bv1.style('background-color', 'green')
+  bv1.style('color', 'white')
+  bv1.mousePressed(v1)
+  
+  by1 = createButton('Amarelo')
+  by1.size(100, 45)
+  by1.position(180, 400)
+  by1.style('background-color', 'rgb(136,136,4)')
+  by1.style('color', 'white')
+  by1.mousePressed(y1)
+  
+  
+  fill("white")
+  stroke('bold')
+  text("SKINS DO PLAYER 2", 480, 280)
+  
+  bver2 = createButton('Vermelho')
+  bver2.size(100, 45)
+  bver2.position(480, 300)
+  bver2.style('background-color', 'red')
+  bver2.style('color', 'white')
+  bver2.mousePressed(ver2)
+  
+  bv2 = createButton('Verde')
+  bv2.size(100, 45)
+  bv2.position(480, 350)
+  bv2.style('background-color', 'green')
+  bv2.style('color', 'white')
+  bv2.mousePressed(v2)
+  
+  by2 = createButton('Amarelo')
+  by2.size(100, 45)
+  by2.position(480, 400)
+  by2.style('background-color', 'rgb(136,136,4)')
+  by2.style('color', 'white')
+  by2.mousePressed(y2)  
+}
+
+function ver1(){
+  cor1 = 'red'
+}
+
+function v1(){
+  cor1='green'
+}
+
+function y1(){
+  cor1='yellow'
+}
+
+function ver2(){
+  cor2 = 'red'
+}
+
+function v2(){
+  cor2='green'
+}
+
+function y2(){
+  cor2='yellow'
+}
+
+
+
+function drawon(){
+  drawoff = true
+  oneplayer = true
+  button.hide()
+  button1.hide()
+  bv1.hide()
+  bver1.hide()
+  by1.hide()
+  bv2.hide()
+  bver2.hide()
+  by2.hide()
+}
+
+function drawon1(){
+  drawoff = true
+  button.hide()
+  button1.hide()
+  bv1.hide()
+  bver1.hide()
+  by1.hide()
+  bv2.hide()
+  bver2.hide()
+  by2.hide()
+}
+
+function ball(){
+  fill('white')
+  stroke('white')
+  circle(bolax, bolay, diametro_bola)
+}
+
+
+function raque(x, y, _width, _height, cor){
+  fill(cor)
+  rect(x, y, _width, _height)
+  stroke('none')
+}
+
+
+function mov_raque(){
+  if (raquey > 0){
+    if (keyIsDown(87)){
+      raquey -= 10
+ 
+    }
+}
+
+  if (raquey < 300){
+    if(keyIsDown(83)){
+      raquey += 10
+    }
+  }
+}
+
+function mov_raque_oponent(){
+   if (raquey2 > 0){
+    if (keyIsDown(UP_ARROW)){
+        raquey2 -= 10
+  }
+}
+  if (raquey2 < 300){
+    if (keyIsDown(DOWN_ARROW)){
+        raquey2 += 10
+        }
+  }    
+}
+
+let up = false
+let down = true
+
+function mov_raque_oponent_bot(){
+  
+  if (down == true){
+    raquey2 += 1
+  }
+  
+  if (raquey2 == 290){
+    down = false
+    up = true
+  }
+  
+  if (up == true){
+    raquey2 -= 1
+  }
+  
+  if (raquey2 == 0){
+    down = true
+    up = false
+  }
+  
+}
+
+//function mov_raque_oponent_bot(){
+  //velo_oponent = bolay - raquey2 - raque_width / 2 - 30
+  //raquey2 += velo_oponent
+//}
+
+
+function colisao_raque(x, y){
+  colisao = collideRectCircle(x, y, raque_width, raque_height, bolax, bolay, raio_bola);
+   if (colisao){ 
+    velobolax *= -1
+    }
+}
+
+
+function mov_ricochete_bola(){
+  if(inicio){
+    bolax += velobolax
+    bolay += velobolay
+
+    if (bolax + raio_bola > width || bolax - raio_bola < 0){
+        velobolax *= -1
+      }
+
+      if (bolay + raio_bola > height || bolay - raio_bola < 0){
+        velobolay *= -1
+      }
+    }
+}
+
+function placar(){
+  fill('white')
+  
+  text(pontos, 270, 26)
+  text(pontos2, 300, 26)
+  
+  if (bolax - raio_bola < 0){
+    pontos2 += 1
+    bolax = 290
+    bolay = 200
+  }
+  
+  if(bolax + raio_bola > width){
+    pontos += 1
+    bolax = 290
+    bolay = 200
+  }
+}
+
+function final(){
+  if (pontos >= 10){
+    text('O JOGADOR 1 VENCEU', 220, 100)
+    text('PRECIONE ESPAÇO PARA ZERAR O PLACAR', 160, 120)
+    inicio = false
+  
+  }if (pontos2 >= 10){
+    text('O JOGADOR 2 VENCEU', 220, 100)
+    text('PRECIONE ESPAÇO PARA ZERAR O PLACAR', 160, 120)
+    inicio = false
+  }
+}
+
+
+function setup() {
+  createCanvas(600, 400);
+  botao()
+  aviso()
+  skins()
+  
+}
+
+
+
+function draw(){
+  if (drawoff == true){
+    background('black');
+    
+    iniciar()
+    
+    ball()
+    
+    mov_ricochete_bola()
+    
+    raque(raquex, raquey, raque_width, raque_height, cor1)
+    
+    mov_raque()
+    
+    colisao_raque(raquex, raquey)
+    
+    raque(raquex2, raquey2, raque_width, raque_height, cor2)
+    
+    colisao_raque(raquex2, raquey2)
+    
+    if (oneplayer){
+      mov_raque_oponent_bot()
+    }else{
+      mov_raque_oponent(raquex2, raquey2, raque_width, raque_height)
+    }
+  
+    placar()
+    
+    final()
+    
+    console.log(mov_raque_oponent)
+
+
+    }
+}
